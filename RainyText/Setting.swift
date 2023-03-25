@@ -13,6 +13,7 @@ class Setting: ObservableObject {
     @Published var rainColors: [Color]
     @Published var backgroundColor: Color
     @Published var letters: Set<Letters>
+    @Published var alwaysOnScreen = false
     
     init(rainColors: [Color], letters: Set<Letters>, backgroundColor: Color) {
         self.rainColors = rainColors

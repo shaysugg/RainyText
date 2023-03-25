@@ -29,8 +29,14 @@ struct RainyTextApp: App {
                 .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
             .environmentObject(setting)
             
+            
         }
+        
         .windowResizability(.contentMinSize)
+        Settings {
+            SettingsView(setting: setting)
+        }
+        
         
         
     }
