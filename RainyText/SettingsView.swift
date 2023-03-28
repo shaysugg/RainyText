@@ -20,23 +20,10 @@ struct SettingsView: View {
     }
     
     var body: some View {
-        NavigationView {
+        NavigationStack {
             Form {
                 Section {
-                    ForEach(Letters.allCases, id: \.rawValue) { letter in
-                        HStack {
-                            Image(systemName: selectedLetters.contains(letter) ? "checkmark.circle.fill" : "circle")
-                                .foregroundColor(.accentColor)
-                            Text(nameOf(letters: letter))
-                            
-                        }.onTapGesture {
-                            if selectedLetters.contains(letter) {
-                                selectedLetters.remove(letter)
-                            } else {
-                                selectedLetters.insert(letter)
-                            }
-                        }
-                    }
+                    CharacterSelection(selectedLetters: $selectedLetters)
                 } header: {
                     Text("Rain Characters")
                 }
@@ -48,11 +35,9 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    HStack {
-                        Text("Background Color:")
-                        Spacer()
                         ColorUnit(color: backgroundColor)
-                    }
+                } header: {
+                    Text("Background Color")
                 }
                 
             }
@@ -65,7 +50,29 @@ struct SettingsView: View {
         }
     }
     
-    func nameOf(letters: Letters) -> String {
+   
+}
+
+struct CharacterSelection: View {
+    @Binding var selectedLetters: Set<Letters>
+    var body: some View {
+        ForEach(Letters.allCases, id: \.rawValue) { letter in
+            HStack {
+                Image(systemName: selectedLetters.contains(letter) ? "checkmark.circle.fill" : "circle")
+                    .foregroundColor(.accentColor)
+                Text(nameOf(letters: letter))
+                
+            }.onTapGesture {
+                if selectedLetters.contains(letter) {
+                    selectedLetters.remove(letter)
+                } else {
+                    selectedLetters.insert(letter)
+                }
+            }
+        }
+    }
+    
+    private func nameOf(letters: Letters) -> String {
         switch letters {
         case .english: return "English"
         case .arabic: return "Arabic"
@@ -85,22 +92,28 @@ struct GradientColorPicker: View {
     @State var isAdding: Bool = false
     
     var body: some View {
-   
+        
         colorsRow
         buttons
         
-        .sheet(isPresented: $isAdding) {
-            _ColorPicker { color in
+            EmptyView()
+            .colorPicker(isPresented: $isAdding) { color in
+                print(color)
                 colorItems.append(ColorItem(color))
             }
-        }
-        .sheet(item: $editingItem) { item in
-            _ColorPicker { color in
-                if let index = colorItems.firstIndex(where: { $0.id == item.id }) {
-                    colorItems[index] = ColorItem(color)
-                }
-            }
-        }
+//        .sheet(isPresented: $isAdding) {
+//            _ColorPicker { color in
+//                colorItems.append(ColorItem(color))
+//            }
+//        }
+//        .sheet(item: $editingItem) { item in
+//            _ColorPicker { color in
+//                if let index = colorItems.firstIndex(where: { $0.id == item.id }) {
+//                    colorItems[index] = ColorItem(color)
+//                }
+//            }
+//        }
+        
     }
     
     var buttons: some View {
@@ -113,6 +126,7 @@ struct GradientColorPicker: View {
             } else {
                 Button("Add color") {
                     isAdding = true
+                    
                 }
                 Button("Remove color") {
                     isRemoving = true
@@ -158,6 +172,73 @@ struct ColorUnit: View {
     }
 }
 
+
+
+
+struct SettingsView_Previews: PreviewProvider {
+    static var previews: some View {
+        Group {
+            SettingsView(setting: Setting.simulator)
+        }
+    }
+}
+
+
+fileprivate struct ColorItem: Identifiable, Equatable {
+    let id = UUID()
+    let color: Color
+    
+    init(_ color: Color) {
+        self.color = color
+    }
+}
+
+
+extension View {
+
+    @ViewBuilder func colorPicker(isPresented: Binding<Bool>, complition: @escaping (Color) -> Void) -> some View {
+        ZStack {
+            self
+            ColorPickerView(isPresented: isPresented, colorPicked: complition)
+        }
+    }
+    
+    
+}
+
+fileprivate struct ColorPickerView: View {
+    @Binding var isPresented: Bool
+    var colorPicked: (Color) -> Void
+    
+    var body: some View {
+        Text("")
+#if os(iOS)
+            .sheet(isPresented: isPresented) {
+                _ColorPicker(colorSelected: colorPicked)
+                
+            }
+#endif
+#if os(macOS)
+            .onChange(of: isPresented) { presented in
+                if presented {
+                    NSColorPanel.shared.orderFront(nil)
+                } else {
+                    NSColorPanel.shared.orderOut(nil)
+                }
+                
+            }
+            .onReceive(NotificationCenter.default.publisher(for: NSColorPanel.colorDidChangeNotification).debounce(for: 0.3, scheduler: DispatchQueue.main)) { _ in
+                print(NSColorPanel.shared.color)
+                NSColorPanel.shared.orderOut(nil)
+                isPresented.toggle()
+            }
+        
+#endif
+    }
+}
+
+
+#if os(iOS)
 fileprivate struct _ColorPicker: UIViewControllerRepresentable {
     
     let colorSelected: (Color) -> Void
@@ -191,21 +272,4 @@ fileprivate class _ColorPickerDelegateAdapter: NSObject, UIColorPickerViewContro
         print("finished")
     }
 }
-
-struct SettingsView_Previews: PreviewProvider {
-    static var previews: some View {
-        Group {
-            SettingsView(setting: Setting.simulator)
-        }
-    }
-}
-
-
-fileprivate struct ColorItem: Identifiable, Equatable {
-    let id = UUID()
-    let color: Color
-    
-    init(_ color: Color) {
-        self.color = color
-    }
-}
+#endif
