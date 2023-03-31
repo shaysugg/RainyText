@@ -13,7 +13,7 @@ struct macOSConetentView: View {
         
         RainyTextView()
             .id(viewID)
-            .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResizeNotification)) { a in
+            .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResizeNotification).debounce(for: 0.2, scheduler: DispatchQueue.main)) { a in
                 //TODO: Laggy as shit
                 viewID += 1
                 print(viewID)

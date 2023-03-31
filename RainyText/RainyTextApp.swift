@@ -29,13 +29,14 @@ struct RainyTextApp: App {
                 .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
             .environmentObject(setting)
             
-            
         }
-        
         .windowResizability(.contentMinSize)
         Settings {
-            SettingsView(setting: setting)
+            macOSSettingView(setting: setting)
+                .frame(width: 500, height: 400)
         }
+        .windowResizability(.contentSize)
+        .windowToolbarStyle(.unifiedCompact)
         
         
         

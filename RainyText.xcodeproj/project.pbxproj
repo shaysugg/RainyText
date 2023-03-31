@@ -15,6 +15,10 @@
 		E44FCA3B29C6046D0089A0DC /* Setting.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44FCA3A29C6046D0089A0DC /* Setting.swift */; };
 		E44FCA3D29C6048E0089A0DC /* Letters.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44FCA3C29C6048E0089A0DC /* Letters.swift */; };
 		E44FCA3F29C60A4A0089A0DC /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E44FCA3E29C60A4A0089A0DC /* SettingsView.swift */; };
+		E4B158AC29D701640097D7C9 /* ColorPanelPicker.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B158AB29D701640097D7C9 /* ColorPanelPicker.swift */; };
+		E4B158AE29D702CB0097D7C9 /* SettingComponents.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B158AD29D702CB0097D7C9 /* SettingComponents.swift */; };
+		E4B158B029D703300097D7C9 /* macOSSettingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B158AF29D703300097D7C9 /* macOSSettingView.swift */; };
+		E4B158B229D73CC10097D7C9 /* IdentifiableColor.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4B158B129D73CC10097D7C9 /* IdentifiableColor.swift */; };
 		E4E2481E29CB1EAF0045B033 /* macOSConetentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = E4E2481D29CB1EAF0045B033 /* macOSConetentView.swift */; };
 /* End PBXBuildFile section */
 
@@ -29,6 +33,10 @@
 		E44FCA3A29C6046D0089A0DC /* Setting.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Setting.swift; sourceTree = "<group>"; };
 		E44FCA3C29C6048E0089A0DC /* Letters.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Letters.swift; sourceTree = "<group>"; };
 		E44FCA3E29C60A4A0089A0DC /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		E4B158AB29D701640097D7C9 /* ColorPanelPicker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ColorPanelPicker.swift; sourceTree = "<group>"; };
+		E4B158AD29D702CB0097D7C9 /* SettingComponents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingComponents.swift; sourceTree = "<group>"; };
+		E4B158AF29D703300097D7C9 /* macOSSettingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOSSettingView.swift; sourceTree = "<group>"; };
+		E4B158B129D73CC10097D7C9 /* IdentifiableColor.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = IdentifiableColor.swift; sourceTree = "<group>"; };
 		E4E2481D29CB1EAF0045B033 /* macOSConetentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = macOSConetentView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
@@ -62,9 +70,9 @@
 		E44023CA29C4B1CB00AAAC10 /* RainyText */ = {
 			isa = PBXGroup;
 			children = (
+				E4B158AA29D701410097D7C9 /* Setting */,
 				E44023CB29C4B1CB00AAAC10 /* RainyTextApp.swift */,
 				E44023CD29C4B1CB00AAAC10 /* RainyTextView.swift */,
-				E44FCA3E29C60A4A0089A0DC /* SettingsView.swift */,
 				E44FCA3829C5FC620089A0DC /* iOSContentView.swift */,
 				E4E2481D29CB1EAF0045B033 /* macOSConetentView.swift */,
 				E44FCA3A29C6046D0089A0DC /* Setting.swift */,
@@ -82,6 +90,18 @@
 				E44023D329C4B1CC00AAAC10 /* Preview Assets.xcassets */,
 			);
 			path = "Preview Content";
+			sourceTree = "<group>";
+		};
+		E4B158AA29D701410097D7C9 /* Setting */ = {
+			isa = PBXGroup;
+			children = (
+				E44FCA3E29C60A4A0089A0DC /* SettingsView.swift */,
+				E4B158AB29D701640097D7C9 /* ColorPanelPicker.swift */,
+				E4B158AD29D702CB0097D7C9 /* SettingComponents.swift */,
+				E4B158AF29D703300097D7C9 /* macOSSettingView.swift */,
+				E4B158B129D73CC10097D7C9 /* IdentifiableColor.swift */,
+			);
+			path = Setting;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -155,12 +175,16 @@
 			buildActionMask = 2147483647;
 			files = (
 				E44023CE29C4B1CB00AAAC10 /* RainyTextView.swift in Sources */,
+				E4B158AE29D702CB0097D7C9 /* SettingComponents.swift in Sources */,
 				E4E2481E29CB1EAF0045B033 /* macOSConetentView.swift in Sources */,
+				E4B158AC29D701640097D7C9 /* ColorPanelPicker.swift in Sources */,
 				E44FCA3D29C6048E0089A0DC /* Letters.swift in Sources */,
 				E44023CC29C4B1CB00AAAC10 /* RainyTextApp.swift in Sources */,
 				E44FCA3F29C60A4A0089A0DC /* SettingsView.swift in Sources */,
 				E44FCA3B29C6046D0089A0DC /* Setting.swift in Sources */,
+				E4B158B229D73CC10097D7C9 /* IdentifiableColor.swift in Sources */,
 				E44FCA3929C5FC620089A0DC /* iOSContentView.swift in Sources */,
+				E4B158B029D703300097D7C9 /* macOSSettingView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
