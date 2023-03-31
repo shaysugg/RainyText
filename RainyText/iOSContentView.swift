@@ -24,7 +24,7 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             iOSContentView()
         }
-        .environmentObject(Setting.simulator)
+        .environmentObject(Setting.preview)
         
     }
 }

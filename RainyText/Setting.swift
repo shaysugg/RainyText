@@ -21,5 +21,5 @@ class Setting: ObservableObject {
         self.backgroundColor = backgroundColor
     }
     
-    static let simulator = Setting(rainColors: [.black, .green], letters: [.english, .chinese], backgroundColor: .black)
+    static let preview = Setting(rainColors: [.black, .green], letters: [.english, .chinese], backgroundColor: .black)
 }

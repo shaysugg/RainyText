@@ -91,7 +91,7 @@ struct RandomCharacterText: View {
 struct RainyTextView_Previews: PreviewProvider {
     static var previews: some View {
         RainyTextView()
-            .environmentObject(Setting.simulator)
+            .environmentObject(Setting.preview)
     }
 }
 
