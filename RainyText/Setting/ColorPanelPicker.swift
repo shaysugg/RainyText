@@ -58,6 +58,7 @@ class macOSSettingVM: ObservableObject {
     }
     
     func remove(color: IdentifiableColor) {
+        guard colorItems.count > 1 else { return }
         colorItems.removeAll { $0.id == color.id }
     }
 }
