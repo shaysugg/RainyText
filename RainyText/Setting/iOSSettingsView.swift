@@ -8,16 +8,19 @@
 import SwiftUI
 #if os(iOS)
 struct iOSSettingView: View {
-    
+    @Binding var isPresented: Bool
     @State private var selectedLetters: Set<Letters>
     @State private var backgroundColor: IdentifiableColor
     @State private var colorItems: [IdentifiableColor]
     @State private var editingColor: IdentifiableColor?
+    private let setting: Setting
     
-    init(setting: Setting) {
+    init(setting: Setting, isPresented: Binding<Bool>) {
+        self.setting = setting
         self._selectedLetters = State(initialValue: setting.letters)
         self._backgroundColor = State(initialValue: IdentifiableColor(setting.backgroundColor))
         self._colorItems = State(initialValue: setting.rainColors.map { IdentifiableColor($0) })
+        self._isPresented = isPresented
     }
     
     var body: some View {
@@ -67,7 +70,9 @@ struct iOSSettingView: View {
             .navigationTitle("Settings")
             .toolbar {
                 Button("Done") {
-                    
+                    setting.applyChnages(rainColors: colorItems.map(\.color), backgroundColor: backgroundColor.color, letters: selectedLetters)
+                    setting.save()
+                    isPresented = false
                 }
             }
         }
@@ -78,7 +83,7 @@ struct iOSSettingView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            iOSSettingView(setting: Setting.preview)
+            iOSSettingView(setting: Setting.preview, isPresented: .constant(true))
         }
     }
 }
