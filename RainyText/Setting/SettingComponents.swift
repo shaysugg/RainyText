@@ -44,26 +44,13 @@ struct GradientColorPicker: View {
     var colorItems: [IdentifiableColor]
     @State private var isRemoving = false
     @State private var isAdding = false
-    var onAdd: (() -> Void)?
+    @State var onAdd: (() -> Void)?
     var onEdit: ((IdentifiableColor) -> Void)?
     var onRemove: ((IdentifiableColor) -> Void)?
     
     var body: some View {
-        
         colorsRow
         buttons
-//            .colorPicker(isPresented: $isAdding) { color in
-//                print(color)
-//                colorItems.append(ColorItem(color))
-//            }
-//            .colorPicker(color: $editingItem) { color in
-//                if let editingItem,
-//                   let index = colorItems.firstIndex(of: editingItem) {
-//                    colorItems[index].color = color
-//                }
-//
-//            }
-        
     }
     
     var buttons: some View {
@@ -91,20 +78,19 @@ struct GradientColorPicker: View {
                 ForEach(colorItems) { item in
                     ZStack {
                         ColorUnit(color: item.color)
-                            .onTapGesture {
-                                if isRemoving {
-                                    onRemove?(item)
-                                } else {
-                                    onEdit?(item)
-                                }
-                            }
                         if isRemoving {
                             Image(systemName: "xmark")
                                 .resizable()
                                 .foregroundColor(.white)
                                 .frame(width: 20, height: 20)
                         }
-                        
+                    }
+                    .onTapGesture {
+                        if isRemoving {
+                            onRemove?(item)
+                        } else {
+                            onEdit?(item)
+                        }
                     }
                 }
             }
