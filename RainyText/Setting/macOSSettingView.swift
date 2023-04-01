@@ -41,9 +41,11 @@ struct macOSSettingView: View {
             .navigationTitle("Settings")
             .toolbar {
                 Button("Done") {
-                    setting.backgroundColor = vm.backgroundColor.color
-                    setting.rainColors = vm.colorItems.map(\.color)
-                    setting.letters = vm.selectedLetters
+                    //TODO: move to vm?
+                    setting.applyChnages(
+                        rainColors: vm.colorItems.map(\.color),
+                        backgroundColor: vm.backgroundColor.color,
+                        letters: vm.selectedLetters)
                 }
             }
         }
@@ -53,6 +55,8 @@ struct macOSSettingView: View {
 struct macOSSettingView_Previews: PreviewProvider {
     static var previews: some View {
         macOSSettingView(setting: Setting.preview)
+            .previewLayout(.fixed(width: 400, height: 800))
     }
 }
 #endif
+

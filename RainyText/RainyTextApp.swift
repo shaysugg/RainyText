@@ -10,7 +10,7 @@ import Combine
 
 @main
 struct RainyTextApp: App {
-    @StateObject var setting = Setting(rainColors: [.black, .green], letters: [.chinese, .english], backgroundColor: .black)
+    @StateObject var setting = Setting.load()
 #if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
@@ -33,7 +33,7 @@ struct RainyTextApp: App {
         .windowResizability(.contentMinSize)
         Settings {
             macOSSettingView(setting: setting)
-                .frame(width: 500, height: 400)
+                .frame(width: 1000, height: 400)
         }
         .windowResizability(.contentSize)
         .windowToolbarStyle(.unifiedCompact)
