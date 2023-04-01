@@ -7,24 +7,22 @@
 
 import SwiftUI
 #if os(iOS)
-struct SettingsView: View {
+struct iOSSettingView: View {
     
-    @State private var selectedLetters = Set<Letters>()
-    @State private var backgroundColor: IdentifiableColor!
-    @State private var colorItems: [IdentifiableColor]!
-    @State private var isAddingColor = false
-    @State private var isEditingColor = false
+    @State private var selectedLetters: Set<Letters>
+    @State private var backgroundColor: IdentifiableColor
+    @State private var colorItems: [IdentifiableColor]
+    @State private var editingColor: IdentifiableColor?
     
     init(setting: Setting) {
-        self.selectedLetters = setting.letters
-        self.backgroundColor = IdentifiableColor(setting.backgroundColor)
-        self.colorItems = setting.rainColors.map { IdentifiableColor($0) }
+        self._selectedLetters = State(initialValue: setting.letters)
+        self._backgroundColor = State(initialValue: IdentifiableColor(setting.backgroundColor))
+        self._colorItems = State(initialValue: setting.rainColors.map { IdentifiableColor($0) })
     }
     
     var body: some View {
         NavigationStack {
             Form {
-                Text("")
                 Section {
                     CharacterSelection(selectedLetters: $selectedLetters)
                 } header: {
@@ -32,16 +30,39 @@ struct SettingsView: View {
                 }
                 
                 Section {
-                    GradientColorPicker(colorItems: colorItems)
+                    GradientColorPicker(colorItems: colorItems, onAdd: {
+                        let newColor = IdentifiableColor(.red)
+                        colorItems.append(newColor)
+                        editingColor = newColor
+                    }, onEdit: { color in
+                        editingColor = color
+                    }, onRemove: { color in
+                        guard colorItems.count > 1 else { return }
+                        colorItems.removeAll { $0.id == color.id }
+                    })
                 }header: {
                     Text("Rain Colors")
                 }
                 Section {
-                    BackgroundColorPicker(color: backgroundColor)
+                    BackgroundColorPicker(color: backgroundColor) { color in
+                        editingColor = color
+                    }
                 } header: {
                     Text("Background Color")
                 }
                 
+                
+            }
+            .sheet(item: $editingColor) { editingColor in
+                iOSColorPicker(color: editingColor.color) { color in
+                    let pickedColor = IdentifiableColor(color)
+                    if let index = colorItems.firstIndex(of: editingColor) {
+                        colorItems[index] = pickedColor
+                    }else if backgroundColor == editingColor {
+                        backgroundColor = pickedColor
+                    }
+                    self.editingColor = nil
+                }
             }
             .navigationTitle("Settings")
             .toolbar {
@@ -57,52 +78,10 @@ struct SettingsView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            SettingsView(setting: Setting.preview)
+            iOSSettingView(setting: Setting.preview)
         }
     }
 }
 #endif
-
-
-
-
-#if os(iOS)
-fileprivate struct _ColorPicker: UIViewControllerRepresentable {
-    
-    @Binding var identifiableColor: IdentifiableColor
-    let delegate = _ColorPickerDelegateAdapter()
-    
-    func makeUIViewController(context: Context) -> some UIViewController {
-        let vc = UIColorPickerViewController()
-        delegate.colorSelected = { color in
-            self.identifiableColor = IdentifiableColor(color)
-        }
-        vc.delegate = delegate
-        return vc
-    }
-    
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
-    }
-}
-
-
-fileprivate class _ColorPickerDelegateAdapter: NSObject, UIColorPickerViewControllerDelegate {
-    
-    var colorSelected: ((Color) -> Void)?
-    
-    func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
-        if !continuously {
-            colorSelected?(Color(uiColor: color))
-            viewController.dismiss(animated: true)
-        }
-    }
-    
-    func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        print("finished")
-    }
-}
-#endif
-
 
 
