@@ -18,7 +18,7 @@ struct CharacterSelection: View {
                 Text(nameOf(letters: letter))
                 
             }.onTapGesture {
-                if selectedLetters.contains(letter) {
+                if selectedLetters.contains(letter) && selectedLetters.count > 1  {
                     selectedLetters.remove(letter)
                 } else {
                     selectedLetters.insert(letter)
