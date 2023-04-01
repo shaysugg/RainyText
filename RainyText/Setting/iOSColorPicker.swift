@@ -8,11 +8,11 @@
 import SwiftUI
 
 #if os(iOS)
-fileprivate struct iOSColorPicker: UIViewControllerRepresentable {
+struct iOSColorPicker: UIViewControllerRepresentable {
     
     let color: Color
     var colorPicked: (Color) -> Void
-    let delegate = _ColorPickerDelegateAdapter()
+    private let delegate = ColorPickerDelegateAdapter()
     
     func makeUIViewController(context: Context) -> some UIViewController {
         let vc = UIColorPickerViewController()
@@ -28,7 +28,7 @@ fileprivate struct iOSColorPicker: UIViewControllerRepresentable {
 }
 
 
-fileprivate class _ColorPickerDelegateAdapter: NSObject, UIColorPickerViewControllerDelegate {
+fileprivate class ColorPickerDelegateAdapter: NSObject, UIColorPickerViewControllerDelegate {
     
     var colorSelected: ((Color) -> Void)?
     
