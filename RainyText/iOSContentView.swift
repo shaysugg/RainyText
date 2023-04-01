@@ -26,7 +26,7 @@ struct iOSContentView: View {
             }
             .tint(.white)
             .padding()
-            
+            .statusBarHidden(setting.hideStatusBar)
             .sheet(isPresented: $presentSetting) {
                 iOSSettingView(setting: setting, isPresented: $presentSetting)
             }

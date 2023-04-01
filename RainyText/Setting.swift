@@ -14,6 +14,7 @@ class Setting: ObservableObject {
     @Published private(set) var backgroundColor: Color
     @Published private(set) var letters: Set<Letters>
     @Published private(set) var alwaysOnScreen = false
+    @Published private(set) var hideStatusBar = true
     
     init(rainColors: [Color], letters: Set<Letters>, backgroundColor: Color) {
         self.rainColors = rainColors
@@ -23,10 +24,11 @@ class Setting: ObservableObject {
     
     static let preview = Setting(rainColors: [.black, .green], letters: [.english, .chinese], backgroundColor: .black)
     
-    func applyChnages(rainColors: [Color]? = nil, backgroundColor: Color? = nil, letters: Set<Letters>? = nil) {
+    func applyChnages(rainColors: [Color]? = nil, backgroundColor: Color? = nil, letters: Set<Letters>? = nil, hideStatusBar: Bool? = nil) {
         if let rainColors { self.rainColors = rainColors }
         if let backgroundColor { self.backgroundColor = backgroundColor }
         if let letters { self.letters = letters }
+        if let hideStatusBar { self.hideStatusBar = hideStatusBar }
     }
     
     

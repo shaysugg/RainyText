@@ -13,6 +13,8 @@ struct iOSSettingView: View {
     @State private var backgroundColor: IdentifiableColor
     @State private var colorItems: [IdentifiableColor]
     @State private var editingColor: IdentifiableColor?
+    @State private(set) var hideStatusBar: Bool
+    
     private let setting: Setting
     
     init(setting: Setting, isPresented: Binding<Bool>) {
@@ -21,6 +23,7 @@ struct iOSSettingView: View {
         self._backgroundColor = State(initialValue: IdentifiableColor(setting.backgroundColor))
         self._colorItems = State(initialValue: setting.rainColors.map { IdentifiableColor($0) })
         self._isPresented = isPresented
+        self._hideStatusBar = State(initialValue: setting.hideStatusBar)
     }
     
     var body: some View {
@@ -53,6 +56,9 @@ struct iOSSettingView: View {
                 } header: {
                     Text("Background Color")
                 }
+                Section {
+                    Toggle("Hide StatusBar", isOn: $hideStatusBar)
+                }
                 
                 
             }
@@ -70,7 +76,7 @@ struct iOSSettingView: View {
             .navigationTitle("Settings")
             .toolbar {
                 Button("Done") {
-                    setting.applyChnages(rainColors: colorItems.map(\.color), backgroundColor: backgroundColor.color, letters: selectedLetters)
+                    setting.applyChnages(rainColors: colorItems.map(\.color), backgroundColor: backgroundColor.color, letters: selectedLetters, hideStatusBar: hideStatusBar)
                     setting.save()
                     isPresented = false
                 }
