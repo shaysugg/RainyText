@@ -44,7 +44,7 @@ struct GradientColorPicker: View {
     var colorItems: [IdentifiableColor]
     @State private var isRemoving = false
     @State private var isAdding = false
-    @State var onAdd: (() -> Void)?
+    var onAdd: (() -> Void)?
     var onEdit: ((IdentifiableColor) -> Void)?
     var onRemove: ((IdentifiableColor) -> Void)?
     
