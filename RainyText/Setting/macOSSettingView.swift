@@ -8,47 +8,49 @@
 import SwiftUI
 #if os(macOS)
 struct macOSSettingView: View {
-    
+    @ObservedObject private var setting: Setting
     @ObservedObject private var vm: macOSSettingVM
-    private let setting: Setting
+    
     init(setting: Setting) {
         self.setting = setting
         self.vm = macOSSettingVM(setting: setting)
     }
-    
     var body: some View {
-        NavigationStack {
             Form {
                 Section {
                     CharacterSelection(selectedLetters: $vm.selectedLetters)
                 } header: {
                     Text("Rain Characters")
                 }
-
+                Divider()
                 Section {
                     GradientColorPicker(colorItems: vm.colorItems, onAdd: vm.addNewColor, onEdit: vm.edit(color:), onRemove: vm.remove(color:))
                 }header: {
                     Text("Rain Colors")
                 }
-
+                Divider()
                 Section {
                     BackgroundColorPicker(color: vm.backgroundColor, onEdit: vm.edit(color:))
                 } header: {
                     Text("Background Color")
                 }
-
-            }
-            .navigationTitle("Settings")
-            .toolbar {
-                Button("Done") {
-                    //TODO: move to vm?
-                    setting.applyChnages(
-                        rainColors: vm.colorItems.map(\.color),
-                        backgroundColor: vm.backgroundColor.color,
-                        letters: vm.selectedLetters)
+                Divider()
+                Spacer()
+                HStack {
+                    Spacer()
+                    Button("Apply") {
+                        setting.applyChnages(
+                            rainColors: vm.colorItems.map(\.color),
+                            backgroundColor: vm.backgroundColor.color,
+                            letters: vm.selectedLetters)
+                    }
+                    Button("Save") {
+                        setting.save()
+                    }
                 }
             }
-        }
+            .padding()
+            .navigationTitle("Settings")
     }
 }
 
