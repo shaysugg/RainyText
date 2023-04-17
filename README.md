@@ -8,6 +8,6 @@ A Matrix rain text animation built with SwiftUI
 * **Multiplatform**: macOS + iOS
 
 ## TODOs
-- [ ] make `RainyTextView` a seperate module from the app.
+- [X] make `RainyTextView` a seperate module from the app.
 - [ ] Adjust height of the rain
 - [ ] Adjust speed of the rain
