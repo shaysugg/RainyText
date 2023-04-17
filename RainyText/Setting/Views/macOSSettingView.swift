@@ -6,12 +6,14 @@
 //
 
 import SwiftUI
+import RainyTextView
+
 #if os(macOS)
 struct macOSSettingView: View {
-    @ObservedObject private var setting: Setting
+    @ObservedObject private var setting: RainyTextView.Setting
     @ObservedObject private var vm: macOSSettingVM
     
-    init(setting: Setting) {
+    init(setting: RainyTextView.Setting) {
         self.setting = setting
         self.vm = macOSSettingVM(setting: setting)
     }
@@ -56,7 +58,7 @@ struct macOSSettingView: View {
 
 struct macOSSettingView_Previews: PreviewProvider {
     static var previews: some View {
-        macOSSettingView(setting: Setting.preview)
+        macOSSettingView(setting: RainyTextView.Setting.preview)
             .previewLayout(.fixed(width: 400, height: 800))
     }
 }

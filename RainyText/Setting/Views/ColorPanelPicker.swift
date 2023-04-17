@@ -8,11 +8,12 @@
 import Foundation
 import Combine
 import SwiftUI
+import RainyTextView
 
 #if os(macOS)
 class macOSSettingVM: ObservableObject {
     
-    @Published var selectedLetters: Set<Letters>
+    @Published var selectedLetters: Set<RainyTextView.Letters>
     @Published private(set)var backgroundColor: IdentifiableColor
     @Published private(set)var colorItems: [IdentifiableColor]
     private var editingColor: IdentifiableColor?
@@ -21,7 +22,7 @@ class macOSSettingVM: ObservableObject {
     private var cancellables = Set<AnyCancellable>()
     
     
-    init(setting: Setting) {
+    init(setting: RainyTextView.Setting) {
         self.selectedLetters = setting.letters
         self.backgroundColor = IdentifiableColor(setting.backgroundColor)
         self.colorItems = setting.rainColors.map { IdentifiableColor($0) }

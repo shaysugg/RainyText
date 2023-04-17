@@ -6,12 +6,12 @@
 //
 
 import SwiftUI
-
+import RainyTextView
 
 struct CharacterSelection: View {
-    @Binding var selectedLetters: Set<Letters>
+    @Binding var selectedLetters: Set<RainyTextView.Letters>
     var body: some View {
-        ForEach(Letters.allCases, id: \.rawValue) { letter in
+        ForEach(RainyTextView.Letters.allCases, id: \.rawValue) { letter in
             HStack {
                 Image(systemName: selectedLetters.contains(letter) ? "checkmark.circle.fill" : "circle")
                     .foregroundColor(.accentColor)
@@ -27,7 +27,7 @@ struct CharacterSelection: View {
         }
     }
     
-    private func nameOf(letters: Letters) -> String {
+    private func nameOf(letters: RainyTextView.Letters) -> String {
         switch letters {
         case .english: return "English"
         case .arabic: return "Arabic"

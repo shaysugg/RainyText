@@ -6,6 +6,7 @@
 //
 #if os(macOS)
 import SwiftUI
+import RainyTextView
 
 struct macOSConetentView: View {
     @State private var viewID = 0

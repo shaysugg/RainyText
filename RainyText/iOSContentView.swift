@@ -6,12 +6,15 @@
 //
 #if os(iOS)
 import SwiftUI
+import RainyTextView
 
 struct iOSContentView: View {
     @State private var viewID = 0
     @State private var presentSetting = false
     @State private var isSettingButtonHidden = false
-    @EnvironmentObject var setting: Setting
+    @EnvironmentObject var setting: RainyTextView.Setting
+    @EnvironmentObject var appSetting: AppSetting
+    
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
             RainyTextView()
@@ -24,9 +27,9 @@ struct iOSContentView: View {
                 presentSetting = true
             }
         }
-        .statusBarHidden(setting.hideStatusBar)
+        .statusBarHidden(appSetting.hideStatusBar)
         .sheet(isPresented: $presentSetting) {
-            iOSSettingView(setting: setting, isPresented: $presentSetting)
+            iOSSettingView(rainSetting: setting, appSetting: appSetting, isPresented: $presentSetting)
         }
         .onTapGesture {
             isSettingButtonHidden = false
@@ -69,7 +72,8 @@ struct ContentView_Previews: PreviewProvider {
         Group {
             iOSContentView()
         }
-        .environmentObject(Setting.preview)
+        .environmentObject(AppSetting.preview)
+        .environmentObject(RainyTextView.Setting.preview)
         
     }
 }

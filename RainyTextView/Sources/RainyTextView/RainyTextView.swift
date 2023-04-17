@@ -9,9 +9,12 @@ import SwiftUI
 
 let characterSize: CGFloat = 15
 
-struct RainyTextView: View {
+public struct RainyTextView: View {
     @EnvironmentObject var setting: Setting
-    var body: some View {
+    
+    public init() {}
+    
+    public var body: some View {
         GeometryReader { geo in
             ZStack {
                 setting.backgroundColor
@@ -22,14 +25,11 @@ struct RainyTextView: View {
                 }
             }
         }
-        
-        
-        
     }
 }
 
 struct GradientColumn: View {
-    @EnvironmentObject var setting: Setting
+    @EnvironmentObject var setting: RainyTextView.Setting
     @State var gradientOffset: CGFloat = 0
     let gradientHeight: CGFloat = 200
     var delay: Double = 0
@@ -76,10 +76,10 @@ struct GradientColumn: View {
 
 
 struct RandomCharacterText: View {
-    @EnvironmentObject var setting: Setting
+    @EnvironmentObject var setting: RainyTextView.Setting
     
     var body: some View {
-        Text(Letters.generateRandomCharacter(from: setting.letters))
+        Text(RainyTextView.Letters.generateRandomCharacter(from: setting.letters))
             .font(.title2)
             .fontWeight(.bold)
             .foregroundColor(.black)
@@ -91,16 +91,6 @@ struct RandomCharacterText: View {
 struct RainyTextView_Previews: PreviewProvider {
     static var previews: some View {
         RainyTextView()
-            .environmentObject(Setting.preview)
-    }
-}
-
-extension GeometryProxy {
-    var _size: CGSize {
-        CGSize(
-            width: size.width + safeAreaInsets.leading + safeAreaInsets.trailing,
-            height: size.height + safeAreaInsets.top + safeAreaInsets.bottom
-        )
-        
+            .environmentObject(RainyTextView.Setting.preview)
     }
 }

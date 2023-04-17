@@ -6,24 +6,28 @@
 //
 
 import SwiftUI
+import RainyTextView
+
 #if os(iOS)
 struct iOSSettingView: View {
     @Binding var isPresented: Bool
-    @State private var selectedLetters: Set<Letters>
+    @State private var selectedLetters: Set<RainyTextView.Letters>
     @State private var backgroundColor: IdentifiableColor
     @State private var colorItems: [IdentifiableColor]
     @State private var editingColor: IdentifiableColor?
     @State private(set) var hideStatusBar: Bool
     
-    private let setting: Setting
+    private let rainSetting: RainyTextView.Setting
+    private let appSetting: AppSetting
     
-    init(setting: Setting, isPresented: Binding<Bool>) {
-        self.setting = setting
-        self._selectedLetters = State(initialValue: setting.letters)
-        self._backgroundColor = State(initialValue: IdentifiableColor(setting.backgroundColor))
-        self._colorItems = State(initialValue: setting.rainColors.map { IdentifiableColor($0) })
+    init(rainSetting: RainyTextView.Setting, appSetting: AppSetting , isPresented: Binding<Bool>) {
+        self.rainSetting = rainSetting
+        self.appSetting = appSetting
+        self._selectedLetters = State(initialValue: rainSetting.letters)
+        self._backgroundColor = State(initialValue: IdentifiableColor(rainSetting.backgroundColor))
+        self._colorItems = State(initialValue: rainSetting.rainColors.map { IdentifiableColor($0) })
         self._isPresented = isPresented
-        self._hideStatusBar = State(initialValue: setting.hideStatusBar)
+        self._hideStatusBar = State(initialValue: appSetting.hideStatusBar)
     }
     
     var body: some View {
@@ -76,8 +80,10 @@ struct iOSSettingView: View {
             .navigationTitle("Settings")
             .toolbar {
                 Button("Done") {
-                    setting.applyChnages(rainColors: colorItems.map(\.color), backgroundColor: backgroundColor.color, letters: selectedLetters, hideStatusBar: hideStatusBar)
-                    setting.save()
+                    rainSetting.applyChnages(rainColors: colorItems.map(\.color), backgroundColor: backgroundColor.color, letters: selectedLetters)
+                    rainSetting.save()
+                    appSetting.applyChanges(hideStatusBar: hideStatusBar)
+                    appSetting.save()
                     isPresented = false
                 }
             }
@@ -89,7 +95,7 @@ struct iOSSettingView: View {
 struct SettingsView_Previews: PreviewProvider {
     static var previews: some View {
         Group {
-            iOSSettingView(setting: Setting.preview, isPresented: .constant(true))
+            iOSSettingView(rainSetting: RainyTextView.Setting.preview, appSetting: AppSetting.preview, isPresented: .constant(true))
         }
     }
 }
