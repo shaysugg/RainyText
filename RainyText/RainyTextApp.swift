@@ -11,16 +11,14 @@ import RainyTextView
 
 @main
 struct RainyTextApp: App {
-    @StateObject var rainSetting = RainyTextView.Setting.load()
-    @StateObject var appSetting = AppSetting.load()
+    @StateObject var setting = Setting.load()
 #if os(iOS)
     @UIApplicationDelegateAdaptor(AppDelegate.self) private var appDelegate
     
     var body: some Scene {
         WindowGroup {
             iOSContentView()
-                .environmentObject(rainSetting)
-                .environmentObject(appSetting)
+                .environmentObject(setting)
         }
     }
 #endif
@@ -30,12 +28,12 @@ struct RainyTextApp: App {
         WindowGroup {
             macOSConetentView()
                 .frame(minWidth: 400, maxWidth: .infinity, minHeight: 400, maxHeight: .infinity)
-            .environmentObject(rainSetting)
+            .environmentObject(setting)
             
         }
         .windowResizability(.contentMinSize)
         Settings {
-            macOSSettingView(setting: rainSetting)
+            macOSSettingView(setting: setting.rain)
                 .frame(width: 500, height: 400)
         }
         .windowResizability(.contentSize)

@@ -12,8 +12,7 @@ struct iOSContentView: View {
     @State private var viewID = 0
     @State private var presentSetting = false
     @State private var isSettingButtonHidden = false
-    @EnvironmentObject var setting: RainyTextView.Setting
-    @EnvironmentObject var appSetting: AppSetting
+    @EnvironmentObject var setting: Setting
     
     var body: some View {
         ZStack(alignment: .bottomTrailing) {
@@ -22,14 +21,15 @@ struct iOSContentView: View {
                 .id(viewID)
                 .onReceive(NotificationCenter.default.publisher(for: UIDevice.orientationDidChangeNotification)) { _ in
                     viewID += 1
-                }
+                }.environmentObject(setting.rain)
+            
             SettingButton(isHidden: $isSettingButtonHidden) {
                 presentSetting = true
             }
         }
-        .statusBarHidden(appSetting.hideStatusBar)
+        .statusBarHidden(setting.app.hideStatusBar)
         .sheet(isPresented: $presentSetting) {
-            iOSSettingView(rainSetting: setting, appSetting: appSetting, isPresented: $presentSetting)
+            iOSSettingView(rainSetting: setting.rain, appSetting: setting.app, isPresented: $presentSetting)
         }
         .onTapGesture {
             isSettingButtonHidden = false

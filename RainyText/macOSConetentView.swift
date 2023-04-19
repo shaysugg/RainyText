@@ -10,10 +10,12 @@ import RainyTextView
 
 struct macOSConetentView: View {
     @State private var viewID = 0
+    @EnvironmentObject private var setting: Setting
     var body: some View {
         
         RainyTextView()
             .id(viewID)
+            .environmentObject(setting.rain)
             .onReceive(NotificationCenter.default.publisher(for: NSWindow.didResizeNotification).debounce(for: 0.2, scheduler: DispatchQueue.main)) { a in
                 //TODO: Laggy as shit
                 viewID += 1

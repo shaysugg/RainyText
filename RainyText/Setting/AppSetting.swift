@@ -6,7 +6,8 @@
 //
 
 import Foundation
-
+import RainyTextView
+import SwiftUI
 
 class AppSetting: ObservableObject {
     @Published private(set) var hideStatusBar: Bool
@@ -20,5 +21,25 @@ class AppSetting: ObservableObject {
     func applyChanges(hideStatusBar: Bool? = nil, alwaysOnScren: Bool? = nil) {
         if let hideStatusBar { self.hideStatusBar = hideStatusBar }
         if let alwaysOnScren { self.alwaysOnScren = alwaysOnScren }
+    }
+}
+
+class Setting: ObservableObject {
+    @ObservedObject private(set) var app: AppSetting
+    @ObservedObject private(set) var rain: RainyTextView.Setting
+    
+    init(app: AppSetting, rain: RainyTextView.Setting) {
+        self.app = app
+        self.rain = rain
+    }
+    
+    static func load() -> Setting {
+        Setting(app: AppSetting.load(),
+                rain: RainyTextView.Setting.load())
+    }
+    
+    func save() {
+        app.save()
+        rain.save()
     }
 }
