@@ -35,6 +35,8 @@ extension RainyTextView.Setting {
         case rainColors
         case backgroundColor
         case letters
+        case rainHeight
+        case lastChangeDate
     }
     
     func save() {
@@ -46,12 +48,15 @@ extension RainyTextView.Setting {
         
         let rainColorsComponents = rainColors.map { $0.cgColor?.components }
         UserDefaults.standard.set(rainColorsComponents, forKey: Keys.rainColors.rawValue)
+        
+        UserDefaults.standard.set(rainHeight, forKey: Keys.rainHeight.rawValue)
     }
     
     static func load() -> RainyTextView.Setting {
         var backgroundColor = Color.black
         var rainColors: [Color] = [.black, .green]
         var letters: Set<RainyTextView.Letters> = [.english, .chinese]
+        var rainHeight: Double = (RainyTextView.rainHeight.upperBound - RainyTextView.rainHeight.lowerBound) / 2
         
         func color(from cgComponents: [CGFloat]) -> Color? {
             if let cgColor = CGColor(colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!, components: cgComponents) {
@@ -76,7 +81,11 @@ extension RainyTextView.Setting {
             rainColors = loadedRainColorsComponents.compactMap { color(from: $0) }
         }
         
-        return RainyTextView.Setting(rainColors: rainColors, letters: letters, backgroundColor: backgroundColor)
+        if let loadedRainLentgh = UserDefaults.standard.object(forKey: Keys.rainHeight.rawValue) as? Double {
+            rainHeight = loadedRainLentgh
+        }
+        
+        return RainyTextView.Setting(rainColors: rainColors, letters: letters, backgroundColor: backgroundColor, rainHeight: rainHeight)
     }
     
     

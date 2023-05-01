@@ -13,5 +13,5 @@ extension AppSetting {
 }
 
 extension RainyTextView.Setting {
-    static let preview = RainyTextView.Setting(rainColors: [.black, .green], letters: [.english, .chinese], backgroundColor: .black)
+    static let preview = RainyTextView.Setting(rainColors: [.black, .green], letters: [.english, .chinese], backgroundColor: .black, rainHeight: 0.5)
 }

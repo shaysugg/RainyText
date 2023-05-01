@@ -11,6 +11,7 @@ let characterSize: CGFloat = 15
 
 public struct RainyTextView: View {
     @EnvironmentObject var setting: Setting
+    @State private var recreateTrigger = 0
     
     public init() {}
     
@@ -20,22 +21,30 @@ public struct RainyTextView: View {
                 setting.backgroundColor
                 HStack(spacing: 0) {
                     ForEach(0..<Int(geo.size.width / characterSize), id: \.self) { index in
-                        GradientColumn(delay: Double.random(in: 0...6))
+                        GradientColumn(setting: setting, delay: Double.random(in: 0...6))    
                     }
                 }
             }
+        }
+        .id(recreateTrigger)
+        .onChange(of: setting.lastChangeDate) { _ in
+            recreateTrigger += 1
         }
     }
 }
 
 struct GradientColumn: View {
-    @EnvironmentObject var setting: RainyTextView.Setting
+    
     @State var gradientOffset: CGFloat = 0
-    let gradientHeight: CGFloat = 200
     var delay: Double = 0
+    var colors: [Color]
+    var rainHeight: Double
     
-    
-    var colors: [Color] { setting.rainColors }
+    init(setting: RainyTextView.Setting, delay: Double) {
+        self.colors = setting.rainColors
+        self.delay = delay
+        self.rainHeight = setting.rainHeight
+    }
     
     
     var body: some View {
@@ -47,15 +56,14 @@ struct GradientColumn: View {
                     Color.clear //don't ask me why
                     
                     LinearGradient(colors: colors, startPoint: .top, endPoint: .bottom)
-                        .frame(height: gradientHeight)
-                        .offset(y:  -( geo.size.height / 2 + gradientHeight ) + gradientOffset)
+                        .frame(height: rainHeight)
+                        .offset(y:  -( (geo.size.height + rainHeight) / 2) + gradientOffset)
                         .animation(
                             .linear(duration: geo.size.height / 150)
                             .delay(delay)
                             .repeatForever(autoreverses: false),
                             value: gradientOffset
                         )
-                    
                     
                         .mask {
                             ForEach(0..<Int(geo.size.height / characterSize), id: \.self) { _ in
@@ -65,14 +73,16 @@ struct GradientColumn: View {
                 }
             }
             .onAppear {
-                gradientOffset = geo.size.height + gradientHeight + gradientHeight / 2 
+                gradientOffset = geo.size.height + rainHeight
+                
             }
         }
-        
     }
     
-    
 }
+
+
+
 
 
 struct RandomCharacterText: View {

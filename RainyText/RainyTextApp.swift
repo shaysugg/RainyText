@@ -34,7 +34,7 @@ struct RainyTextApp: App {
         .windowResizability(.contentMinSize)
         Settings {
             macOSSettingView(setting: setting.rain)
-                .frame(width: 500, height: 400)
+                .frame(width: 500, height: 500)
         }
         .windowResizability(.contentSize)
         .windowToolbarStyle(.unifiedCompact)

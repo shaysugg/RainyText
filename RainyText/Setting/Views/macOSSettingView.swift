@@ -37,6 +37,12 @@ struct macOSSettingView: View {
                     Text("Background Color")
                 }
                 Divider()
+                Section {
+                    HeightPicker(height: $vm.height)
+                } header: {
+                    Text("Rain Height")
+                }
+                Divider()
                 Spacer()
                 HStack {
                     Spacer()
@@ -44,7 +50,8 @@ struct macOSSettingView: View {
                         setting.applyChnages(
                             rainColors: vm.colorItems.map(\.color),
                             backgroundColor: vm.backgroundColor.color,
-                            letters: vm.selectedLetters)
+                            letters: vm.selectedLetters,
+                            rainHeight: vm.height)
                     }
                     Button("Save") {
                         setting.save()

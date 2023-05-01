@@ -122,3 +122,25 @@ struct ColorUnit: View {
             .frame(width: 55, height: 40)
     }
 }
+
+struct HeightPicker: View {
+    
+    @Binding var height: Double
+    var body: some View {
+        Slider(value: $height ,in: RainyTextView.rainHeight, step: step)
+    }
+    
+    var step: Double {
+        (RainyTextView.rainHeight.upperBound - RainyTextView.rainHeight.lowerBound) / 10
+    }
+}
+
+struct SettingsComponensView_Previews: PreviewProvider {
+    @State static var height: Double = RainyTextView.rainHeight.lowerBound
+    static var previews: some View {
+        Group {
+            HeightPicker(height: $height)
+                .previewLayout(.fixed(width: 400, height: 300))
+        }
+    }
+}
