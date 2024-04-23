@@ -135,6 +135,18 @@ struct HeightPicker: View {
     }
 }
 
+struct SpeedPicker: View {
+    
+    @Binding var speed: Double
+    var body: some View {
+        Slider(value: $speed, in: range, step: 1)
+    }
+    
+    var range: ClosedRange<Double> {
+        (Double(0)...Double(RainyTextView.Setting.RainSpeed.allCases.count - 1))
+    }
+}
+
 struct SettingsComponensView_Previews: PreviewProvider {
     @State static var height: Double = RainyTextView.rainHeight.lowerBound
     static var previews: some View {

@@ -17,6 +17,7 @@ class macOSSettingVM: ObservableObject {
     @Published private(set)var backgroundColor: IdentifiableColor
     @Published private(set)var colorItems: [IdentifiableColor]
     @Published var height: Double
+    @Published var speed: Double
     private var editingColor: IdentifiableColor?
     
     
@@ -28,6 +29,7 @@ class macOSSettingVM: ObservableObject {
         self.backgroundColor = IdentifiableColor(setting.backgroundColor)
         self.colorItems = setting.rainColors.map { IdentifiableColor($0) }
         self.height = setting.rainHeight
+        self.speed = Double(1 / setting.rainSpeed.rawValue)
         listernForColorPanelChanges()
     }
     

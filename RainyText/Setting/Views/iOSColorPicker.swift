@@ -14,16 +14,15 @@ struct iOSColorPicker: UIViewControllerRepresentable {
     var colorPicked: (Color) -> Void
     private let delegate = ColorPickerDelegateAdapter()
     
-    func makeUIViewController(context: Context) -> some UIViewController {
+    func makeUIViewController(context: Context) -> UIColorPickerViewController {
         let vc = UIColorPickerViewController()
-        vc.selectedColor = UIColor(color)
         delegate.colorSelected = colorPicked
         vc.delegate = delegate
         return vc
     }
     
-    func updateUIViewController(_ uiViewController: UIViewControllerType, context: Context) {
-        
+    func updateUIViewController(_ uiViewController: UIColorPickerViewController, context: Context) {
+        uiViewController.selectedColor = UIColor(color)
     }
 }
 
@@ -35,12 +34,11 @@ fileprivate class ColorPickerDelegateAdapter: NSObject, UIColorPickerViewControl
     func colorPickerViewController(_ viewController: UIColorPickerViewController, didSelect color: UIColor, continuously: Bool) {
         if !continuously {
             colorSelected?(Color(uiColor: color))
-            viewController.dismiss(animated: true)
         }
     }
     
     func colorPickerViewControllerDidFinish(_ viewController: UIColorPickerViewController) {
-        print("finished")
+        viewController.dismiss(animated: true)
     }
 }
 #endif

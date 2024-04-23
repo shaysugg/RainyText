@@ -42,16 +42,23 @@ struct macOSSettingView: View {
                 } header: {
                     Text("Rain Height")
                 }
+                Section {
+                    SpeedPicker(speed: $vm.speed)
+                } header: {
+                    Text("Speed Picked")
+                }
                 Divider()
                 Spacer()
                 HStack {
                     Spacer()
                     Button("Apply") {
-                        setting.applyChnages(
+                        setting.applyChanges(
                             rainColors: vm.colorItems.map(\.color),
                             backgroundColor: vm.backgroundColor.color,
                             letters: vm.selectedLetters,
-                            rainHeight: vm.height)
+                            rainHeight: vm.height,
+                            rainSpeed: .init(rawValue: Int(vm.speed))
+                        )
                     }
                     Button("Save") {
                         setting.save()

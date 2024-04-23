@@ -35,15 +35,19 @@ public struct RainyTextView: View {
 
 struct GradientColumn: View {
     
+    typealias RainSpeed = RainyTextView.Setting.RainSpeed
+    
     @State var gradientOffset: CGFloat = 0
     var delay: Double = 0
     var colors: [Color]
     var rainHeight: Double
+    var speed: RainSpeed
     
     init(setting: RainyTextView.Setting, delay: Double) {
         self.colors = setting.rainColors
         self.delay = delay
         self.rainHeight = setting.rainHeight
+        self.speed = setting.rainSpeed
     }
     
     
@@ -59,7 +63,7 @@ struct GradientColumn: View {
                         .frame(height: rainHeight)
                         .offset(y:  -( (geo.size.height + rainHeight) / 2) + gradientOffset)
                         .animation(
-                            .linear(duration: geo.size.height / 150)
+                            .linear(duration: geo.size.height / 150 * slowness)
                             .delay(delay)
                             .repeatForever(autoreverses: false),
                             value: gradientOffset
@@ -76,6 +80,16 @@ struct GradientColumn: View {
                 gradientOffset = geo.size.height + rainHeight
                 
             }
+        }
+    }
+    
+    private var slowness: Double {
+        switch speed {
+        case .verySlow: return 3
+        case .slow: return 2
+        case .medium: return 1
+        case .fast: return 0.7
+        case .veryFast: return 0.5
         }
     }
     

@@ -37,6 +37,7 @@ extension RainyTextView.Setting {
         case letters
         case rainHeight
         case lastChangeDate
+        case rainSpeed
     }
     
     func save() {
@@ -46,10 +47,12 @@ extension RainyTextView.Setting {
         let lettersRawValue = letters.map(\.rawValue)
         UserDefaults.standard.set(lettersRawValue, forKey: Keys.letters.rawValue)
         
-        let rainColorsComponents = rainColors.map { $0.cgColor?.components }
+        let rainColorsComponents = rainColors.compactMap { $0.cgColor?.components }
         UserDefaults.standard.set(rainColorsComponents, forKey: Keys.rainColors.rawValue)
         
         UserDefaults.standard.set(rainHeight, forKey: Keys.rainHeight.rawValue)
+        
+        UserDefaults.standard.set(rainSpeed.rawValue, forKey: Keys.rainSpeed.rawValue)
     }
     
     static func load() -> RainyTextView.Setting {
@@ -57,6 +60,7 @@ extension RainyTextView.Setting {
         var rainColors: [Color] = [.black, .green]
         var letters: Set<RainyTextView.Letters> = [.english, .chinese]
         var rainHeight: Double = (RainyTextView.rainHeight.upperBound - RainyTextView.rainHeight.lowerBound) / 2
+        var rainSpeed: Int = RainSpeed.medium.rawValue
         
         func color(from cgComponents: [CGFloat]) -> Color? {
             if let cgColor = CGColor(colorSpace: CGColorSpace(name: CGColorSpace.sRGB)!, components: cgComponents) {
@@ -85,7 +89,11 @@ extension RainyTextView.Setting {
             rainHeight = loadedRainLentgh
         }
         
-        return RainyTextView.Setting(rainColors: rainColors, letters: letters, backgroundColor: backgroundColor, rainHeight: rainHeight)
+        if let loadedRainSpeed = UserDefaults.standard.object(forKey: Keys.rainSpeed.rawValue) as? Int {
+            rainSpeed = loadedRainSpeed
+        }
+        
+        return RainyTextView.Setting(rainColors: rainColors, letters: letters, backgroundColor: backgroundColor, rainHeight: rainHeight, rainSpeed: RainSpeed(rawValue: rainSpeed)!)
     }
     
     

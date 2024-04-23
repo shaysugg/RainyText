@@ -17,6 +17,7 @@ struct iOSSettingView: View {
     @State private var editingColor: IdentifiableColor?
     @State private(set) var hideStatusBar: Bool
     @State private(set) var rainHeight: Double
+    @State private(set) var rainSpeed: Double
     
     private let rainSetting: RainyTextView.Setting
     private let appSetting: AppSetting
@@ -30,6 +31,7 @@ struct iOSSettingView: View {
         self._isPresented = isPresented
         self._hideStatusBar = State(initialValue: appSetting.hideStatusBar)
         self._rainHeight = State(initialValue: rainSetting.rainHeight)
+        self._rainSpeed = State(initialValue: Double(rainSetting.rainSpeed.rawValue))
     }
     
     var body: some View {
@@ -71,6 +73,12 @@ struct iOSSettingView: View {
                     Text("Rain Height")
                 }
                 
+                Section {
+                    SpeedPicker(speed: $rainSpeed)
+                } header: {
+                    Text("Rain Speed")
+                }
+                
                 
             }
             .sheet(item: $editingColor) { editingColor in
@@ -87,11 +95,13 @@ struct iOSSettingView: View {
             .navigationTitle("Settings")
             .toolbar {
                 Button("Done") {
-                    rainSetting.applyChnages(
+                    rainSetting.applyChanges(
                         rainColors: colorItems.map(\.color),
                         backgroundColor: backgroundColor.color,
                         letters: selectedLetters,
-                    rainHeight: rainHeight)
+                        rainHeight: rainHeight,
+                        rainSpeed: .init(rawValue: Int(rainSpeed))
+                    )
                     rainSetting.save()
                     appSetting.applyChanges(hideStatusBar: hideStatusBar)
                     appSetting.save()
