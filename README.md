@@ -1,5 +1,15 @@
 # Rainy Text
+<table>
+<tr>
+<td>
 ![rainy-text](images/rainy-text.gif)
+</td>
+<td>
+![rainy-text](images/rainy-text2.gif)
+</td>
+</tr>
+</table>
+
 
 A Matrix rain text animation built with SwiftUI
 
