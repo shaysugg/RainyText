@@ -1,10 +1,13 @@
 # Rainy Text
 <table>
 <tr>
-<td><img src="images/rainy-text2.gif" alt="Rainy text iPhone (dark)"></td>
-<td><img src="images/rainy-text3.gif" alt="Rainy text iPhone (light)"></td>
-<td><img src="images/rainy-text4.png" alt="Rainy text iPhone setting"></td>
+<td><img src="images/rainy-text2.gif" alt="Rainy text iPhone (dark)" style="width: 33.333%;"></td>
+<td><img src="images/rainy-text3.gif" alt="Rainy text iPhone (light)" style="width: 33.333%;"></td>
+<td><img src="images/rainy-text4.png" alt="Rainy text iPhone setting" style="width: 33.333%;"></td>
 </tr>
+</table>
+
+<table>
 <tr>
 <td><img src="images/rainy-text.gif" alt="Rainy text Mac"></td>
 </tr>
