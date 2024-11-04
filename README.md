@@ -7,9 +7,10 @@
 </tr>
 </table>
 
-<table>
+<table style="width:100%">
 <tr>
 <td><img src="images/rainy-text.gif" alt="Rainy text Mac"></td>
+<td><img src="images/rainy-text5.png" alt="Rainy text Mac setting"></td>
 </tr>
 </table>
 
