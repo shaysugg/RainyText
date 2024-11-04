@@ -2,10 +2,10 @@
 <table>
 <tr>
 <td>
-![rainy-text](images/rainy-text.gif)
+<img src="images/rainy-text.gif" alt="Rainy text Mac")>
 </td>
 <td>
-![rainy-text](images/rainy-text2.gif)
+<img src="images/rainy-text2.gif" alt="Rainy text iPhone">
 </td>
 </tr>
 </table>
