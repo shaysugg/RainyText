@@ -16,6 +16,7 @@ struct iOSColorPicker: UIViewControllerRepresentable {
     
     func makeUIViewController(context: Context) -> UIColorPickerViewController {
         let vc = UIColorPickerViewController()
+        vc.view.backgroundColor = .systemBackground
         delegate.colorSelected = colorPicked
         vc.delegate = delegate
         return vc

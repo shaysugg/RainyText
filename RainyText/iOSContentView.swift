@@ -49,6 +49,7 @@ struct SettingButton: View {
             Image(systemName: "gearshape.fill")
                 .resizable()
                 .frame(width: 25, height: 25)
+                .shadow(radius: 5)
         }
         .tint(.white)
         .padding()
